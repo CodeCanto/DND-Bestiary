@@ -16,7 +16,7 @@ function App() {
     });
   }, []);
 
-  const clickHandler = (e) => {
+  const cardClickHandler = (e) => {
     setDisplayCard(
       `${baseURL}/monsters/${e.target.innerText
         .replace(/ /gi, "-")
@@ -55,7 +55,7 @@ function App() {
               ? monsters.map((monster, index) => {
                   return (
                     <li key={index}>
-                      <button onClick={clickHandler}>{monster.name}</button>
+                      <button onClick={cardClickHandler}>{monster.name}</button>
                     </li>
                   );
                 })

@@ -37,12 +37,19 @@ function MonsterCard(props) {
     } else if (typeof value === "object" && value !== null) {
       return (
         <ul style={{ listStyleType: "none" }}>
-          {Object.entries(value).map(([key, subValue], index) => (
-            <li key={index}>
-              <h3>{key.charAt(0).toUpperCase() + key.slice(1)}</h3>
-              <div>{recursiveCheck(subValue)}</div>
-            </li>
-          ))}
+          {Object.entries(value).map(
+            ([key, subValue], index) =>
+              key !== "index" &&
+              key !== "url" && (
+                <li key={index}>
+                  <h3>
+                    {key.charAt(0).toUpperCase() +
+                      key.slice(1).replace("_", " ")}
+                  </h3>
+                  <div>{recursiveCheck(subValue)}</div>
+                </li>
+              )
+          )}
         </ul>
       );
     }
@@ -62,12 +69,18 @@ function MonsterCard(props) {
         <p>Image not available.</p>
       )}
       <ul style={{ listStyleType: "none" }}>
-        {Object.entries(cardDetails).map(([key, value]) => (
-          <li key={key}>
-            <h2>{key.charAt(0).toUpperCase() + key.slice(1)}</h2>
-            <div>{recursiveCheck(value)}</div>
-          </li>
-        ))}
+        {Object.entries(cardDetails).map(
+          ([key, value]) =>
+            key !== "index" &&
+            key !== "url" && (
+              <li key={key}>
+                <h2>
+                  {key.charAt(0).toUpperCase() + key.slice(1).replace("_", " ")}
+                </h2>
+                <div>{recursiveCheck(value)}</div>
+              </li>
+            )
+        )}
       </ul>
     </>
   );
