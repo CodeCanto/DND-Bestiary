@@ -1,35 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import MonsterCard from "./components/MonsterCard";
+import axios from "axios";
+
+const baseURL = `https://www.dnd5eapi.co/api/`;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [monsters, setMonsters] = useState([]);
+  const [displayCard, setDisplayCard] = useState("");
+  const [searchMonster, setSearchMonster] = useState("");
+  const [clickedCard, setClickedCard] = useState(false);
+
+  useEffect(() => {
+    axios.get(`${baseURL}/monsters`).then((response) => {
+      setMonsters(response.data.results);
+    });
+  }, []);
+
+  const clickHandler = (e) => {
+    setDisplayCard(
+      `${baseURL}/monsters/${e.target.innerText
+        .replace(/ /gi, "-")
+        .toLowerCase()}`
+    );
+    setClickedCard(true);
+  };
+
+  const backClickHandler = () => {
+    setClickedCard(false);
+  };
+
+  const onChangeHandler = (e) => {
+    setSearchMonster(e.target.value);
+    setClickedCard(false);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Monsters</h1>
+      <input
+        type="text"
+        onChange={onChangeHandler}
+        placeholder="Search Monsters"
+        value={searchMonster}
+      />
+      {clickedCard ? (
+        <div>
+          <button onClick={backClickHandler}>Back to List</button>
+          <MonsterCard displayDetails={displayCard} />
+        </div>
+      ) : (
+        <div>
+          <ul style={{ listStyleType: "none" }}>
+            {searchMonster === ""
+              ? monsters.map((monster, index) => {
+                  return (
+                    <li key={index}>
+                      <button onClick={clickHandler}>{monster.name}</button>
+                    </li>
+                  );
+                })
+              : monsters
+                  .filter((monster) => {
+                    return monster.name
+                      .toLowerCase()
+                      .includes(searchMonster.toLowerCase());
+                  })
+                  .map((monster, index) => {
+                    return (
+                      <li key={index}>
+                        <button onClick={clickHandler}>{monster.name}</button>
+                      </li>
+                    );
+                  })}
+          </ul>
+        </div>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

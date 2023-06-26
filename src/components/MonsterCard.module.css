@@ -1,0 +1,11 @@
+li {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: baseline;
+}
+
+h2,
+h3 {
+  padding-right: 5%;
+}
