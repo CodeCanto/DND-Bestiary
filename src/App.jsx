@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import MonsterCard from "./components/MonsterCard";
 import axios from "axios";
+import Header from "./components/Header";
+import UserSearch from "./components/UserSearch";
+import MonsterList from "./components/MonsterList";
 
 const baseURL = `https://www.dnd5eapi.co/api/`;
 
 function App() {
   const [monsters, setMonsters] = useState([]);
-  const [displayCard, setDisplayCard] = useState("");
+  const [displayDetails, setDisplayDetails] = useState("");
   const [searchMonster, setSearchMonster] = useState("");
   const [clickedCard, setClickedCard] = useState(false);
 
@@ -17,7 +20,7 @@ function App() {
   }, []);
 
   const cardClickHandler = (e) => {
-    setDisplayCard(
+    setDisplayDetails(
       `${baseURL}/monsters/${e.target.innerText
         .replace(/ /gi, "-")
         .toLowerCase()}`
@@ -36,44 +39,19 @@ function App() {
 
   return (
     <>
-      <h1>Monsters</h1>
-      <input
-        type="text"
-        onChange={onChangeHandler}
-        placeholder="Search Monsters"
-        value={searchMonster}
-      />
+      <Header />
+      <UserSearch onChangeHandler={onChangeHandler} value={searchMonster} />
       {clickedCard ? (
         <div>
           <button onClick={backClickHandler}>Back to List</button>
-          <MonsterCard displayDetails={displayCard} />
+          <MonsterCard displayDetails={displayDetails} />
         </div>
       ) : (
-        <div>
-          <ul style={{ listStyleType: "none" }}>
-            {searchMonster === ""
-              ? monsters.map((monster, index) => {
-                  return (
-                    <li key={index}>
-                      <button onClick={cardClickHandler}>{monster.name}</button>
-                    </li>
-                  );
-                })
-              : monsters
-                  .filter((monster) => {
-                    return monster.name
-                      .toLowerCase()
-                      .includes(searchMonster.toLowerCase());
-                  })
-                  .map((monster, index) => {
-                    return (
-                      <li key={index}>
-                        <button onClick={clickHandler}>{monster.name}</button>
-                      </li>
-                    );
-                  })}
-          </ul>
-        </div>
+        <MonsterList
+          searchMonster={searchMonster}
+          cardClickHandler={cardClickHandler}
+          monsters={monsters}
+        />
       )}
     </>
   );
