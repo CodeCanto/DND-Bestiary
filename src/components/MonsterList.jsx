@@ -2,16 +2,17 @@ import React from "react";
 import styles from "./MonsterList.module.css";
 
 export default function MonsterList(props) {
+  console.log(props, "props");
   return (
     <div>
       <ul className={styles.list}>
-        {props.searchMonster === ""
-          ? props.monsters.map((monster, index) => {
+        {props.searchQuery === ""
+          ? props.monsters.map((monster) => {
               return (
-                <li key={index} className={styles.item}>
+                <li key={monster.index} className={styles.item}>
                   <button
                     className={styles.button}
-                    onClick={props.cardClickHandler}
+                    onClick={() => props.cardClickHandler(monster.index)}
                   >
                     {monster.name}
                   </button>
@@ -22,14 +23,14 @@ export default function MonsterList(props) {
               .filter((monster) => {
                 return monster.name
                   .toLowerCase()
-                  .includes(props.searchMonster.toLowerCase());
+                  .includes(props.searchQuery.toLowerCase());
               })
-              .map((monster, index) => {
+              .map((monster) => {
                 return (
-                  <li key={index} className={styles.item}>
+                  <li key={monster.index} className={styles.item}>
                     <button
                       className={styles.button}
-                      onClick={props.cardClickHandler}
+                      onClick={() => props.cardClickHandler(monster.index)}
                     >
                       {monster.name}
                     </button>

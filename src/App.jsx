@@ -10,21 +10,18 @@ const baseURL = `https://www.dnd5eapi.co/api/`;
 function App() {
   const [monsters, setMonsters] = useState([]);
   const [displayDetails, setDisplayDetails] = useState("");
-  const [searchMonster, setSearchMonster] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [clickedCard, setClickedCard] = useState(false);
 
   useEffect(() => {
-    axios.get(`${baseURL}/monsters`).then((response) => {
+    axios.get(`${baseURL}monsters`).then((response) => {
       setMonsters(response.data.results);
     });
   }, []);
 
-  const cardClickHandler = (e) => {
-    setDisplayDetails(
-      `${baseURL}/monsters/${e.target.innerText
-        .replace(/ /gi, "-")
-        .toLowerCase()}`
-    );
+  const cardClickHandler = (index) => {
+    console.log(index, "index in app");
+    setDisplayDetails(`${baseURL}monsters/${index}`);
     setClickedCard(true);
   };
 
@@ -33,14 +30,18 @@ function App() {
   };
 
   const onChangeHandler = (e) => {
-    setSearchMonster(e.target.value);
+    setSearchQuery(e.target.value);
     setClickedCard(false);
   };
+
+  {
+    console.log(clickedCard);
+  }
 
   return (
     <>
       <Header />
-      <UserSearch onChangeHandler={onChangeHandler} value={searchMonster} />
+      <UserSearch onChangeHandler={onChangeHandler} value={searchQuery} />
       {clickedCard ? (
         <div>
           <button onClick={backClickHandler}>Back to List</button>
@@ -48,7 +49,7 @@ function App() {
         </div>
       ) : (
         <MonsterList
-          searchMonster={searchMonster}
+          searchQuery={searchQuery}
           cardClickHandler={cardClickHandler}
           monsters={monsters}
         />
