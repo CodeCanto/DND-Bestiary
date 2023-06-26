@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import MonsterCard from "./components/MonsterCard";
 import axios from "axios";
 import Header from "./components/Header";
 import UserSearch from "./components/UserSearch";
 import MonsterList from "./components/MonsterList";
+import MonsterCard from "./components/MonsterCard";
+import "./App.css";
 
 const baseURL = `https://www.dnd5eapi.co/api/`;
 
@@ -20,7 +21,6 @@ function App() {
   }, []);
 
   const cardClickHandler = (index) => {
-    console.log(index, "index in app");
     setDisplayDetails(`${baseURL}monsters/${index}`);
     setClickedCard(true);
   };
@@ -34,17 +34,24 @@ function App() {
     setClickedCard(false);
   };
 
-  {
-    console.log(clickedCard);
-  }
-
   return (
     <>
       <Header />
       <UserSearch onChangeHandler={onChangeHandler} value={searchQuery} />
       {clickedCard ? (
         <div>
-          <button onClick={backClickHandler}>Back to List</button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              padding: "20px",
+            }}
+          >
+            <button style={{ margin: "auto" }} onClick={backClickHandler}>
+              Back to List
+            </button>
+          </div>
           <MonsterCard displayDetails={displayDetails} />
         </div>
       ) : (

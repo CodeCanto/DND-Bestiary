@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./MonsterCard.module.css";
+import styles from "./MonsterCard.module.css";
 
 function MonsterCard(props) {
   const [cardDetails, setCardDetails] = useState({});
@@ -11,7 +11,6 @@ function MonsterCard(props) {
       .get(props.displayDetails)
       .then((response) => {
         setCardDetails(response.data);
-        console.log(cardDetails);
       })
       .catch((err) => {
         console.log(err);
@@ -20,7 +19,6 @@ function MonsterCard(props) {
 
   const handleImageError = () => {
     setIsImageLoaded(false);
-    console.log(cardDetails);
   };
 
   const recursiveCheck = (value) => {
@@ -41,7 +39,7 @@ function MonsterCard(props) {
             ([key, subValue], index) =>
               key !== "index" &&
               key !== "url" && (
-                <li key={index}>
+                <li className={styles.li} key={index}>
                   <h3>
                     {key.charAt(0).toUpperCase() +
                       key.slice(1).replace("_", " ")}
@@ -58,22 +56,29 @@ function MonsterCard(props) {
 
   return (
     <>
-      <h1>{cardDetails.name}</h1>
       {isImageLoaded ? (
-        <img
-          src={`https://www.dnd5eapi.co/api/images/monsters/${cardDetails.index}.png`}
-          alt={`Picture of ${cardDetails.name}.`}
-          onError={handleImageError}
-        />
+        <div className={styles.imageContainer}>
+          <div className={styles.polaroid}>
+            <img
+              className={styles.img}
+              src={`https://www.dnd5eapi.co/api/images/monsters/${cardDetails.index}.png`}
+              alt={`Picture of ${cardDetails.name}.`}
+              onError={handleImageError}
+            />
+            <div className={styles.container}>
+              <h1>{cardDetails.name}</h1>
+            </div>
+          </div>
+        </div>
       ) : (
-        <p>Image not available.</p>
+        <p className={styles.noimg}>Image not available.</p>
       )}
-      <ul style={{ listStyleType: "none" }}>
+      <ul className={styles.list} style={{ listStyleType: "none" }}>
         {Object.entries(cardDetails).map(
           ([key, value]) =>
             key !== "index" &&
             key !== "url" && (
-              <li key={key}>
+              <li className={styles.li} key={key}>
                 <h2>
                   {key.charAt(0).toUpperCase() + key.slice(1).replace("_", " ")}
                 </h2>

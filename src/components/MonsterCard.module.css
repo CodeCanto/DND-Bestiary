@@ -1,12 +1,58 @@
-/* li {
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap");
+
+.list {
   display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: baseline;
+  flex-direction: column;
   flex-wrap: wrap;
+  background-color: antiquewhite;
+  margin-left: auto;
+  margin-right: auto;
+  width: 42%;
 }
 
-h2,
-h3 {
-  padding-right: 5%;
-} */
+.li {
+  flex-basis: 20%;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.noimg {
+  display: block;
+  background-color: red;
+  color: aliceblue;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.polaroid {
+  justify-content: center;
+  background-color: #541a1a;
+  padding: 10px;
+  border: 2px solid #d4af37;
+  margin: 10px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.container {
+  color: #d4af37;
+  font-family: "Cinzel", serif;
+  text-align: center;
+  padding: 10px;
+  background-color: #541a1a;
+}

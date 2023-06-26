@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./MonsterList.module.css";
 
 export default function MonsterList(props) {
-  console.log(props, "props");
   return (
     <div>
       <ul className={styles.list}>
